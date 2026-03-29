@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct No {
+    int dado;
+    struct No *prox;
+    struct No *ant;
+} No;
+
+No* inserirInicio(No *lista, int valor){
+	No *novo = (No*)malloc(sizeof(No));
+	novo->dado = valor;
+	novo->ant = NULL;
+	novo->prox = lista;
+}
+No* inserirFinal(No *lista, int valor){
+	No *novo = (No*) malloc(sizeof(No));
+	novo->dado = valor;
+	novo->prox = NULL;
+	if (lista == NULL){
+		novo->ant = NULL;
+		return novo;
+	}
+	No *aux = lista;
+	while (aux->prox != NULL){
+		aux = aux->prox;
+	}
+	aux->prox = novo;
+	novo->ant = aux;
+	return lista;	
+}
+No* buscar(No *lista, int valor){
+	No *aux = lista;
+	while(aux != NULL){
+		if(aux->dado == valor){
+			return aux;
+		}
+		aux = aux->prox;
+	}
+}
+No* remover (No *lista, int valor){
+	No *aux = lista;
+	while(aux != NULL && aux->dado != valor){
+		aux = aux->prox;
+	}
+	if(aux->ant == NULL){
+		lista = aux->prox;
+		if(lista != NULL){
+		   lista->ant = NULL;
+		}
+	} else {
+		aux->ant->prox = aux->ant;
+	}
+	if(aux->prox != NULL){
+		aux->prox->ant = aux->ant;
+	}
+	free(aux);
+	return lista;
+}
+void imprimirFrente(No *lista){
+	No *aux = lista;
+	while( aux!= NULL){
+		printf("|%d| <-> ", aux->dado);
+		aux = aux->prox;
+	}
+	printf("NULL !\n");
+}
+void imprimirTras(No *lista){
+	No *aux = lista;
+	if(lista == NULL) 
+	return;
+	
+	while(aux->prox != NULL){
+		aux = aux->prox;
+	}
+	while(aux != NULL){
+		printf("|%d| <-> ",aux->dado);
+		aux = aux->ant;
+	}
+	printf("NULL\n");
+}
+
+int main(){
+
+	No * lista = NULL;
+	lista = inserirInicio(lista,10); 
+	lista = inserirInicio(lista,15);
+	//......criar mais listas Inicio
+	lista = inserirFinal(lista,30); 
+	lista = inserirFinal(lista,33);
+	//......criar mais listas Final
+  
+	printf("Lista (frente): \n");
+		imprimirFrente(lista);
+	printf("Lista (tras): \n");
+		imprimirTras(lista);	
+	if(buscar(lista,20)){
+		printf("20 encontrado!\n");
+	}
+	lista = remover(lista,33);
+	printf("Valor 33 removido !\n");
+	imprimirFrente(lista);
+	imprimirTras(lista);
+	return 0;
+}
+
+
+
