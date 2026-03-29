@@ -1,0 +1,17 @@
+#include <stdio.h>
+ 
+ int main(){
+ 	
+ 	int numero = 19; //int 4bytes ...(n) = 100
+ 	int *p = &numero; // ponteiro recebe o endereco de numero
+ 	int **m = &p;
+ 	
+ 	printf("Valor de numero: %d\n",numero);
+ 	printf("Endereco de numero: %p\n",&numero);
+ 	printf("Valor guardado em p: %p\n",p);
+ 	printf("Valor apontado por p: %d\n",*p);
+ 	
+ 	printf("Valor de pp: %p\n",m);
+ 	printf("Valor apontado por p: %d\n",*m);
+ 	return 0;
+ }
