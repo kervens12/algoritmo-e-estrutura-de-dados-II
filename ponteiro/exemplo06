@@ -1,0 +1,17 @@
+ #include <stdio.h>
+ 
+ struct Pessoa{
+ 	char nome[20];
+ 	int idade;
+ };
+ int main(){
+ 	
+ 	struct Pessoa p1 ={"Carlos",30};
+	struct Pessoa *ptr = &p1;
+	
+ 	printf("Nome: %s\n",ptr->nome);
+ 	printf("Idade: %d\n",ptr->idade);
+ 	
+ 	
+ 	return 0;
+ }
