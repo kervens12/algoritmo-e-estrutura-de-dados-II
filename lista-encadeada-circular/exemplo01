@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+typedef struct No {
+    int dado;
+    struct No *prox;
+} No;
+
+No* inserirInicio(No *lista, int valor) {
+    No *novo = (No*) malloc(sizeof(No));
+    novo->dado = valor;
+    if(lista==NULL){
+    	novo->prox = novo;
+    	return novo;
+	}
+	No *aux = lista;
+	while(aux->prox!=lista){
+		aux = aux->prox;
+	}
+	aux->prox = novo;
+	novo->prox = lista;
+    return lista;
+}
+void imprimir(No *lista){
+	if(lista == NULL){
+		printf("Lista Vazia !\n");
+		return;
+	}
+	No *aux = lista;
+	do{
+		printf("|%d| <->", aux->dado);
+		aux = aux->prox;
+	}while(aux != lista);
+	printf("(volta ao inicio)\n");
+}
+No* busca(No * lista, int valor){
+	if(lista == NULL) return NULL;
+	No *aux = lista;
+	do{
+		if(aux->dado == valor){
+			return aux;
+		}
+		aux = aux->prox;
+	}while(aux !=lista);
+	return NULL;
+}
+No* remover(No *lista, int valor){
+	if(lista == NULL) return NULL;
+	No *atual = lista;
+	No *anterior = NULL;
+	
+	if(lista->prox == lista && lista->dado==valor){
+		free(lista);
+		return NULL;
+	}	
+	do{
+		if(atual->dado == valor){
+			break;
+		}
+		anterior = atual;
+		atual = atual->prox;
+	}while(atual!=lista);
+	if(atual == lista){
+		No *ultimo = lista;
+		while(ultimo->prox!=lista){
+			ultimo = ultimo->prox;
+		}
+		lista = lista->prox;
+		ultimo->prox = lista;
+		free(atual);
+		return lista;
+	}
+	anterior->prox = atual->prox;
+	free(atual);
+}
+
+int main() {
+
+    No *lista = NULL;
+    lista = inserirInicio(lista, 10);
+    lista = inserirInicio(lista, 20);
+    lista = inserirInicio(lista, 30);
+    lista = inserirInicio(lista, 40);
+    printf("Lista circular:\n");
+    imprimir(lista);
+    if (busca(lista, 30) != NULL) {
+        printf("Valor 30 encontrado!\n");
+    } else {
+        printf("Valor 30 nao encontrado!\n");
+    }
+    lista = remover(lista, 10);
+    printf("Apos remover 10:\n");
+    imprimir(lista);
+
+    lista = remover(lista, 30);
+    printf("Apos remover 30:\n");
+    imprimir(lista);
+
+    return 0;
+}
+
