@@ -1,0 +1,123 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Estrutura do no
+typedef struct No {
+    int dado;
+    struct No *prox;
+} No;
+
+// Inserir no inicio
+No* inserirInicio(No *lista, int valor) {
+    No *novo = (No*) malloc(sizeof(No));
+    if (novo == NULL) {
+        printf("Erro de alocacao!\n");
+        exit(1);
+    }
+
+    novo->dado = valor;
+    novo->prox = lista;
+    return novo;
+}
+
+// Inserir no final
+No* inserirFinal(No *lista, int valor) {
+    No *novo = (No*) malloc(sizeof(No));
+    if (novo == NULL) {
+        printf("Erro de alocacao!\n");
+        exit(1);
+    }
+
+    novo->dado = valor;
+    novo->prox = NULL;
+
+    if (lista == NULL) return novo;
+
+    No *aux = lista;
+    while (aux->prox != NULL) {
+        aux = aux->prox;
+    }
+
+    aux->prox = novo;
+    return lista;
+}
+
+// BUSCAR elemento
+No* buscar(No *lista, int valor) {
+    No *aux = lista;
+
+    while (aux != NULL) {
+        if (aux->dado == valor) {
+            return aux;
+        }
+        aux = aux->prox;
+    }
+
+    return NULL;
+}
+
+// REMOVER elemento
+No* remover(No *lista, int valor) {
+    No *aux = lista;
+    No *anterior = NULL;
+
+    if (lista == NULL) return NULL;
+
+    // remover primeiro
+    if (lista->dado == valor) {
+        No *temp = lista;
+        lista = lista->prox;
+        free(temp);
+        return lista;
+    }
+
+    while (aux != NULL && aux->dado != valor) {
+        anterior = aux;
+        aux = aux->prox;
+    }
+
+    if (aux != NULL) {
+        anterior->prox = aux->prox;
+        free(aux);
+    }
+
+    return lista;
+}
+
+// Imprimir lista
+void imprimirLista(No *lista) {
+    No *aux = lista;
+    while (aux != NULL) {
+        printf("%d -> ", aux->dado);
+        aux = aux->prox;
+    }
+    printf("NULL\n");
+}
+
+// Programa principal
+int main() {
+    No *lista = NULL;
+
+    lista = inserirFinal(lista, 10);
+    lista = inserirFinal(lista, 20);
+    lista = inserirFinal(lista, 30);
+    lista = inserirFinal(lista, 40);
+
+    printf("Lista original:\n");
+    imprimirLista(lista);
+
+    int valorBusca = 20;
+    No *resultado = buscar(lista, valorBusca);
+
+    if (resultado != NULL)
+        printf("Valor %d encontrado!\n", valorBusca);
+    else
+        printf("Valor %d nao encontrado!\n", valorBusca);
+
+    lista = remover(lista, 20);
+
+    printf("Lista apos remover 20:\n");
+    imprimirLista(lista);
+
+    return 0;
+}
