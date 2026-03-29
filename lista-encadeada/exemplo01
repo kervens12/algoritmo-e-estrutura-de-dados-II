@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Estrutura do no
+typedef struct No {
+    int dado;
+    struct No *prox;
+} No;
+
+// Funcao para inserir no inicio
+No* inserirInicio(No *lista, int valor) {
+    No *novo = (No*) malloc(sizeof(No));
+    if (novo == NULL) {
+        printf("Erro de alocacao!\n");
+        exit(1);
+    }
+    novo->dado = valor;
+    novo->prox = lista;
+    return novo;
+}
+
+// Funcao para inserir no final
+No* inserirFinal(No *lista, int valor) {
+    No *novo = (No*) malloc(sizeof(No));
+    if (novo == NULL) {
+        printf("Erro de alocacao!\n");
+        exit(1);
+    }
+    novo->dado = valor;
+    novo->prox = NULL;
+
+    if (lista == NULL) {
+        return novo;
+    }
+
+    No *aux = lista;
+    while (aux->prox != NULL) {
+        aux = aux->prox;
+    }
+
+    aux->prox = novo;
+    return lista;
+}
+
+// Funcao para imprimir a lista
+void imprimirLista(No *lista) {
+    No *aux = lista;
+    while (aux != NULL) {
+        printf("%d -> ", aux->dado);
+        aux = aux->prox;
+    }
+    printf("NULL\n");
+}
+
+// Funcao principal
+int main() {
+    No *lista = NULL;
+
+    // Inserindo elementos
+    lista = inserirInicio(lista, 10);
+    lista = inserirInicio(lista, 5);
+    lista = inserirFinal(lista, 20);
+    lista = inserirFinal(lista, 30);
+
+    // Exibindo lista
+    printf("Lista encadeada:\n");
+    imprimirLista(lista);
+
+    return 0;
+}
